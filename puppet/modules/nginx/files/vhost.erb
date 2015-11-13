@@ -1,0 +1,22 @@
+server {
+    listen 80;
+    server_name <%= @domain %>;
+    root /var/www/projects/<%= @folder %>;
+    index index.php;
+
+    <% if @silverstripe %>
+        include snippets/silverstripe.conf;
+    <% else %>
+        location / {
+            try_files $uri /index.php;
+        }
+
+        location ~ \.php$ {
+            fastcgi_pass unix:/var/run/php5-fpm.sock;
+            fastcgi_index index.php;
+            include fastcgi_params;
+            fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+            fastcgi_param SCRIPT_NAME $fastcgi_script_name;
+        }
+    <% end %>
+}

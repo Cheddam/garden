@@ -1,0 +1,5 @@
+---
+vhosts:
+    'act':
+        folder: 'act/public'
+        domain: 'act.dev'
